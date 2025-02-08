@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import folium
 import webbrowser
-
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 
@@ -30,8 +29,13 @@ model = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42)
 model.fit(X, y)
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
+    if request.method == 'GET':
+        return jsonify({
+            "message": "Welcome to the Soil Organic Carbon Prediction API. Use POST to send soil data for prediction."
+        })
+
     try:
         # Get data from request body (form-data)
         N = float(request.form.get("N"))
